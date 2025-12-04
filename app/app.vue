@@ -1,6 +1,10 @@
+<script setup lang="ts">
+const { data: settings } = await useFetch('/api/settings')
+</script>
+
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <Calendar :week-start="1" />
+    <Calendar v-if="settings" :week-start="settings.weekStart" />
   </div>
 </template>

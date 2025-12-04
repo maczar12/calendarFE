@@ -1,10 +1,27 @@
 <script setup lang="ts">
-const { settings } = useSettings()
+import { useSettingsFetch } from '~/composables/settings/useSettingsFetch';
+
+const uSettingsFetch = useSettingsFetch()
+const { data: settings, error, isFetching } = uSettingsFetch.getSettings()
 </script>
 
 <template>
   <div>
-    <h1>Calendar</h1>
-    <Calendar v-if="settings" :week-start="settings.weekStart" />
+    <div v-if="error">
+      Error
+    </div>
+
+    <div v-else-if="isFetching">
+      Fetching
+    </div>
+
+    <div v-else-if="settings">
+      <h1>Calendar</h1>
+      <Calendar :week-start="settings.weekStart" />
+    </div>
+
+    <div v-else>
+      No Calendar
+    </div>
   </div>
 </template>

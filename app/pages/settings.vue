@@ -1,20 +1,33 @@
 <script setup lang="ts">
-const { settings, updateWeekStart } = useSettings()
 
-const currentWeekStart = computed({
-  get: () => settings.value?.weekStart ?? 1,
-  set: (val) => {
-    updateWeekStart(Number(val))
-  }
-})
+import { useSettingsFetch } from '~/composables/settings/useSettingsFetch';
+import type { Settings } from '~/composables/settings/settingsTypes';
+
+const uSettingsFetch = useSettingsFetch()
+
+const { data: settings } = uSettingsFetch.getSettings()
+const currentWeekStart = computed(() => settings.value?.weekStart || 1)
+
+
+const settingsBody = ref<Settings>()
+const { error } = uSettingsFetch.updateSettings(settingsBody)
+
+const changeWeekStart = (event) => {
+  settingsBody.value = {weekStart: event.target.value}
+}
 </script>
 
 <template>
   <div>
     <h1>Settings</h1>
     <div class="setting-item">
+      ---{{ settingsBody }}===
       <label for="week-start">Week Start:</label>
-      <select id="week-start" v-model.number="currentWeekStart">
+      <select
+        id="week-start"
+        :model-value="currentWeekStart"
+        @change="changeWeekStart"
+      >
         <option :value="0">Sunday</option>
         <option :value="1">Monday</option>
         <option :value="6">Saturday</option>

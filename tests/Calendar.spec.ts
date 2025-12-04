@@ -16,4 +16,30 @@ describe('Calendar', () => {
     const year = date.getFullYear()
     expect(wrapper.text()).toContain(`${monthName} ${year}`)
   })
+
+  it('respects weekStart prop', () => {
+    // Case 1: weekStart is 0 (Sunday)
+    let wrapper = mount(Calendar, {
+      props: {
+        weekStart: 0
+      }
+    })
+
+    // Check weekday names
+    let weekDayNames = wrapper.findAll('.weekdays > div')
+    expect(weekDayNames[0].text()).toBe('Sun')
+    expect(weekDayNames[1].text()).toBe('Mon')
+
+    // Case 2: weekStart is 1 (Monday)
+    wrapper = mount(Calendar, {
+      props: {
+        weekStart: 1
+      }
+    })
+
+    // Check weekday names
+    weekDayNames = wrapper.findAll('.weekdays > div')
+    expect(weekDayNames[0].text()).toBe('Mon')
+    expect(weekDayNames[1].text()).toBe('Tue')
+  })
 })

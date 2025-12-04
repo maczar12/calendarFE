@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
+const props = withDefaults(defineProps<{
+  weekStart?: number
+}>(), {
+  weekStart: 0 // Default to Sunday
+})
+
 const currentDate = ref(new Date())
 
 const year = computed(() => currentDate.value.getFullYear())
@@ -20,8 +26,16 @@ const firstDayOfMonth = computed(() => {
 
 const days = computed(() => {
   const result = []
-  // Add empty slots for days before the first day of the month
-  for (let i = 0; i < firstDayOfMonth.value; i++) {
+  // Calculate empty slots based on weekStart
+  // firstDayOfMonth is 0 (Sun) to 6 (Sat)
+  // if weekStart is 0: (firstDayOfMonth - 0 + 7) % 7
+  // if weekStart is 1 (Mon):
+  //   if firstDayOfMonth is 1 (Mon) -> 0 empty slots
+  //   if firstDayOfMonth is 0 (Sun) -> 6 empty slots
+  const emptySlots = (firstDayOfMonth.value - props.weekStart + 7) % 7
+
+  // Add empty slots
+  for (let i = 0; i < emptySlots; i++) {
     result.push(null)
   }
   // Add days of the month
@@ -29,6 +43,12 @@ const days = computed(() => {
     result.push(i)
   }
   return result
+})
+
+const weekDayNames = computed(() => {
+  const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const rotated = [...names.slice(props.weekStart), ...names.slice(0, props.weekStart)]
+  return rotated
 })
 
 const prevMonth = () => {
@@ -48,7 +68,7 @@ const nextMonth = () => {
       <button @click="nextMonth">&gt;</button>
     </div>
     <div class="weekdays">
-      <div v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="day">
+      <div v-for="day in weekDayNames" :key="day">
         {{ day }}
       </div>
     </div>

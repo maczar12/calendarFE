@@ -1,6 +1,6 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <Calendar />
+    <Calendar :week-start="1" />
   </div>
 </template>

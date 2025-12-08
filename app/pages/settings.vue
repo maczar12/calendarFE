@@ -5,7 +5,7 @@ import type { Settings } from '~/composables/settings/settingsTypes';
 
 const uSettingsFetch = useSettingsFetch()
 
-const { data: settings } = uSettingsFetch.getSettings()
+const { data: settings } = await uSettingsFetch.getSettings()
 const currentWeekStart = computed(() => settings.value?.weekStart || 1)
 
 
@@ -25,7 +25,7 @@ const changeWeekStart = (event) => {
       <label for="week-start">Week Start:</label>
       <select
         id="week-start"
-        :model-value="currentWeekStart"
+        :model-value="settings?.weekStart"
         @change="changeWeekStart"
       >
         <option :value="0">Sunday</option>

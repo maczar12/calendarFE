@@ -2,7 +2,7 @@
 import { useSettingsFetch } from '~/composables/settings/useSettingsFetch';
 
 const uSettingsFetch = useSettingsFetch()
-const { data: settings, error, status } = uSettingsFetch.getSettings()
+const { data: settings, error, status } = await uSettingsFetch.getSettings()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { data: settings, error, status } = uSettingsFetch.getSettings()
       Error
     </div>
 
-    <div v-else-if="status === 'idle' || 'pending'">
+    <div v-else-if="status === 'pending'">
       Fetching
     </div>
 

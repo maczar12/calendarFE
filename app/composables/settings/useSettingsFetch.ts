@@ -6,11 +6,17 @@ export const useSettingsFetch = () => {
   const getSettings = () => useAuthorizedFetch<Settings>(url, {key: url})
 
   const updateSettings = (settings: MaybeRefOrGetter<Settings | undefined>) => {
-    return useAuthorizedFetch(url, {
+    const computedUrl = computed(() => {
+      const s = toValue(settings)
+      return s ? url : undefined
+    })
+
+    return useAuthorizedFetch(computedUrl, {
       key: url,
       method: 'POST',
       body: settings,
-      watch: [settings]
+      watch: [settings],
+      immediate: false
     })
   }
 

@@ -2,35 +2,40 @@
 
 import { useSettingsFetch } from '~/composables/settings/useSettingsFetch';
 import type { Settings } from '~/composables/settings/settingsTypes';
+import CustomSelect from '~/components/ui-elements/CustomSelect.vue';
 
 const uSettingsFetch = useSettingsFetch()
-const { data: settings } = await uSettingsFetch.getSettings()
+const {data: settings} = await uSettingsFetch.getSettings()
 
 
 const settingsBody = ref<Settings>()
-const { error, execute } = uSettingsFetch.updateSettings(settingsBody)
+const {error, execute} = uSettingsFetch.updateSettings(settingsBody)
 
-const changeWeekStart = (event) => {
-  settingsBody.value = {weekStart: event.target.value}
-  execute()
+const changeWeekStart = (event?: number) => {
+  if (event) {
+    settingsBody.value = {weekStart: event}
+    execute()
+  }
 }
+const weekStart = computed(() => settings.value?.weekStart ?? 1)
+
 </script>
 
 <template>
   <div>
     <h1>Settings</h1>
     <div class="setting-item">
-      ---{{ settings }}===
       <label for="week-start">Week Start:</label>
-      <select
-        id="week-start"
-        :value="settings?.weekStart"
-        @change="changeWeekStart"
-      >
-        <option :value="0">Sunday</option>
-        <option :value="1">Monday</option>
-        <option :value="6">Saturday</option>
-      </select>
+      {{ settings?.weekStart }}
+      <CustomSelect
+        :model-value="settings?.weekStart"
+        :options="[
+          {value: 0, label: 'Sunday'},
+          {value: 1, label: 'Monday'},
+          {value: 6, label: 'Saturday'},
+        ]"
+        @update:model-value="changeWeekStart"
+      />
     </div>
     <div class="current-value">
       Current value: {{ settings?.weekStart }}
@@ -42,6 +47,7 @@ const changeWeekStart = (event) => {
 .setting-item {
   margin: 20px 0;
 }
+
 select {
   padding: 8px;
   margin-left: 10px;

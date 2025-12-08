@@ -12,8 +12,9 @@ const currentWeekStart = computed(() => settings.value?.weekStart || 1)
 const settingsBody = ref<Settings>()
 const { error } = uSettingsFetch.updateSettings(settingsBody)
 
-const changeWeekStart = (event) => {
-  settingsBody.value = {weekStart: event.target.value}
+const changeWeekStart = (event: Event) => {
+  const target = event.target as HTMLSelectElement
+  settingsBody.value = {weekStart: Number(target.value)}
 }
 </script>
 

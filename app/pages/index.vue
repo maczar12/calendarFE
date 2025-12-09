@@ -7,13 +7,9 @@ const { data: settings, error, status } = await uSettingsFetch.getSettings()
 
 <template>
   <div>
-    <div v-if="error">
-      Error
-    </div>
+    <ErrorState v-if="error" />
 
-    <div v-else-if="status === 'pending'">
-      Fetching
-    </div>
+    <LoadingState v-else-if="status === 'pending'" />
 
     <div v-else-if="settings">
       <h1>Calendar</h1>

@@ -17,6 +17,7 @@ const changeWeekStart = (event?: number) => {
     execute()
   }
 }
+
 </script>
 
 <template>
@@ -33,8 +34,9 @@ const changeWeekStart = (event?: number) => {
       <h1>Settings</h1>
       <div class="setting-item">
         <label for="week-start">Week Start:</label>
+
         <CustomSelect
-          :model-value="settings?.weekStart"
+          :model-value="settings.weekStart"
           :options="[
             {value: 0, label: 'Sunday'},
             {value: 1, label: 'Monday'},
@@ -44,7 +46,7 @@ const changeWeekStart = (event?: number) => {
         />
       </div>
       <div class="current-value">
-        Current value: {{ settings?.weekStart }}
+        Current value: {{ settings.weekStart }}
       </div>
     </div>
   </div>

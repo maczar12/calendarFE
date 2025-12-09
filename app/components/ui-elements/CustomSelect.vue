@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps<{
+import settings from '~/pages/settings.vue';
+
+const props = defineProps<{
   modelValue?: string | number
   options: { value: string | number, label: string }[]
 }>()
@@ -7,14 +9,18 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', newValue: string | number | undefined): void
 }>()
+
+const value = computed({
+  get: () => props.modelValue,
+  set: (value: string | number): void => {
+    emit('update:modelValue', value)
+  }
+})
+
 </script>
 
 <template>
-  <select
-    id="week-start"
-    :value="modelValue"
-    @change="emit('update:modelValue', $event.target?.value)"
-  >
+  <select v-model="value">
     <option v-for="o in options" :key="o.value" :value="o.value">{{ o.label }}</option>
   </select>
 </template>

@@ -22,29 +22,29 @@ const changeWeekStart = (event?: number) => {
 
 <template>
   <div>
-    <ErrorState v-if="error" />
+    <FetchState :status="status" :error="error" :is-empty="!settings">
+      <template #default>
+        <div>
+          <h1>Settings</h1>
+          <div class="setting-item">
+            <label for="week-start">Week Start:</label>
 
-    <LoadingState v-else-if="status === 'pending'" />
-
-    <div v-else-if="settings">
-      <h1>Settings</h1>
-      <div class="setting-item">
-        <label for="week-start">Week Start:</label>
-
-        <CustomSelect
-          :model-value="settings.weekStart"
-          :options="[
-            {value: 0, label: 'Sunday'},
-            {value: 1, label: 'Monday'},
-            {value: 6, label: 'Saturday'},
-          ]"
-          @update:model-value="changeWeekStart($event as number)"
-        />
-      </div>
-      <div class="current-value">
-        Current value: {{ settings.weekStart }}
-      </div>
-    </div>
+            <CustomSelect
+              :model-value="settings!.weekStart"
+              :options="[
+                {value: 0, label: 'Sunday'},
+                {value: 1, label: 'Monday'},
+                {value: 6, label: 'Saturday'},
+              ]"
+              @update:model-value="changeWeekStart($event as number)"
+            />
+          </div>
+          <div class="current-value">
+            Current value: {{ settings!.weekStart }}
+          </div>
+        </div>
+      </template>
+    </FetchState>
   </div>
 </template>
 

@@ -7,17 +7,18 @@ const { data: settings, error, status } = await uSettingsFetch.getSettings()
 
 <template>
   <div>
-    <ErrorState v-if="error" />
-
-    <LoadingState v-else-if="status === 'pending'" />
-
-    <div v-else-if="settings">
-      <h1>Calendar</h1>
-      <Calendar :week-start="settings.weekStart" />
-    </div>
-
-    <div v-else>
-      No Calendar
-    </div>
+    <FetchState :status="status" :error="error" :is-empty="!settings">
+      <template #default>
+        <div>
+          <h1>Calendar</h1>
+          <Calendar :week-start="settings!.weekStart" />
+        </div>
+      </template>
+      <template #empty>
+        <div>
+          No Calendar
+        </div>
+      </template>
+    </FetchState>
   </div>
 </template>

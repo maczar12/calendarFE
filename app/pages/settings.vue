@@ -12,7 +12,7 @@ const settingsBody = ref<Settings>()
 const {execute} = uSettingsFetch.updateSettings(settingsBody)
 
 const changeWeekStart = (event?: number) => {
-  if (event) {
+  if (event !== undefined) {
     settingsBody.value = {weekStart: event}
     execute()
   }

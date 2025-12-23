@@ -5,19 +5,14 @@ import LoadingState from '~/components/LoadingState.vue';
 defineProps<{
   status: string,
   error: unknown,
-  isEmpty?: boolean
 }>()
 </script>
 
 <template>
   <div>
-    <slot v-if="error" name="error">
-      <ErrorState />
-    </slot>
-    <slot v-else-if="status === 'pending'" name="loader">
-      <LoadingState />
-    </slot>
-    <slot v-else-if="isEmpty" name="empty" />
+    <ErrorState v-if="error" />
+    <LoadingState v-else-if="status === 'pending'" />
+
     <slot v-else name="default" />
   </div>
 </template>

@@ -4,7 +4,7 @@ import LoadingState from '~/components/LoadingState.vue';
 
 defineProps<{
   status: string,
-  error: any,
+  error: unknown,
   isEmpty?: boolean
 }>()
 </script>

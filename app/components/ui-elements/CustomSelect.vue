@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import settings from '~/pages/settings.vue';
-
 const props = defineProps<{
   modelValue?: string | number
   options: { value: string | number, label: string }[]
